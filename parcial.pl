@@ -9,11 +9,11 @@ camion(elRapido, acoplado(2,3, seguritas).
 camion(tata, comun(1).
 
 % PUNTO 1
-asaltaExitosamente(Banda, NombreCamion):-
+asaltaExitosamente(Banda, NombreCamion, Botin):-
         viaje(_,_,Botin,NombreCamion), % El camion esta haciendo un viaje 
         dificultad(NombreCamion, DificultadCamion),
         fuerza(Banda, Fuerza),
-        Fuerza > Dificultad.
+        Fuerza > DificultadCamion.
 
 fuerza(Banda, Fuerza):-
     banda(Banda, CantIntegrantes, CantArmas),
@@ -47,7 +47,7 @@ asola(Banda, Ciudad, BotinTotal):-
 % PUNTO 3
 caracterizar(Banda, Ciudad, decadente):-
     banda(Banda, CantIntegrantes, _),
-    forall(tipo(NombreCamion, _), not(asaltaExitosamente(Banda, NombreCamion))),
+    forall(tipo(NombreCamion, _), not(asaltaExitosamente(Banda, NombreCamion, _))),
     CantIntegrantes < 10.
 
 caracterizar(Banda, Ciudad, terrorDeLaCiudad):-
@@ -72,17 +72,29 @@ banda(laBandaDeCABA, 10, 2).
 viaje(buenosAires, salta, 2434, elRapido).
 viaje(jujuy, buenosAires, 2444534, elRapido).
 
+% A)
 % y cuando consultas:
-% > asaltaExitosamente(laBandaDeCABA, elRapido). => true.
+% > asaltaExitosamente(laBandaDeCABA, elRapido, _). => true.
 % > caracterizar(laBandaDeCABA, buenosAires, terrorDeLaCiudad). => true.
 
-
+% B)
 ciudad(sanLuis).
 banda(barraBrava, 5000, 1234344).
 viaje(sanLuis, salta, 2, tata).
 
+% y cuando consultas:
+% > asaltaExitosamente(barraBrava, tata, _). => true.
+% > caracterizar(barraBrava, sanLuis, exentrica). => true.
 
 
+% C)
+% consulta: caracterizar(losSalieri, Ciudad, Caracteristica).
+
+
+ciudad(barcelona).
+banda(losTirris, 50, 19).
+
+% D) Consulta: asola(losTirris, barcelona, BotinTotal):-
 
 
 % PUNTO 5
