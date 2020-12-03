@@ -50,9 +50,8 @@ caracterizar(Banda, Ciudad, decadente):-
     CantIntegrantes < 10.
 
 caracterizar(Banda1, Ciudad, terrorDeLaCiudad):-
-    forall(viaje(_, _, _, NombreCamion), asaltaExitosamente(Banda1, NombreCamion)),
-    not(forall(viaje(_, _, _, NombreCamion), asaltaExitosamente(Banda2, NombreCamion))),
-    Banda1 \= Banda2.
+    forall(camionPasaPorCiudad(Camion, Ciudad),
+   (asaltaExitosamente(Banda1, Camion, _), not(asaltaExitosamente(Banda2, Camion, _), Banda1 \= Banda2))).
 
 
 caracterizar(Banda, Ciudad, exentrica):-
@@ -68,8 +67,9 @@ asaltaExitosamente(laBandaDeCABA, elRapido).
 viaje(buenosAires, salta, 2434, elRapido).
 viaje(jujuy, buenosAires, 2444534, elRapido).
 
-
-caracterizar(Banda, Ciudad, exentrica)
+ciudad(sanLuis).
+banda(barraBrava, 5, 12).
+caracterizar(barraBrava, sanLuis, exentrica).
 
 
 % PUNTO 6
