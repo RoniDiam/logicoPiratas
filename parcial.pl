@@ -96,4 +96,6 @@ viaje(sanLuis, salta, 2, tata).
 % el elemento de la derecha, por lo que no se pueden hallar la CantIntegrantes y CantArmas que unifiquen.
 
 % PUNTO 6
-% Caracterizar pudiese haber sido polimorfico pero para eso habia que hacerlo con functores
+% El cálculo de la dificultad es polimórfica gracias al uso de functores. En el caso de los predicados 
+% caracterizar podrían haberse usado functores para que sean polimórficos y evitar el uso de la Ciudad 
+% como argumento extra
