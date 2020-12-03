@@ -6,7 +6,7 @@
 
 indiceSeguridad(seguritas, 5).
 camion(elRapido, acoplado(2,3, seguritas).
-camion(tata, comun(1).
+camion(tata, comun(1)).
 
 % PUNTO 1
 asaltaExitosamente(Banda, NombreCamion, Botin):-
@@ -28,9 +28,10 @@ dificultad(NombreCamion, DificultadCamion):-
     DificultadCamion is LargoRemolque * CantChoferes.
 
 dificultad(NombreCamion, DificultadCamion):-
-    camion(NombreCamion, acoplado(CapacidadCaja, CapacidadAcoplado, _(Indice))),
+    camion(NombreCamion, acoplado(CapacidadCaja, CapacidadAcoplado, NombreEmpresa)),
     indiceSeguridad(NombreEmpresa, IndiceSeguridad),
-    DificultadCamion is ((CapacidadCaja + CapacidadAcoplado) * Indice).
+    DificultadCamion is ((CapacidadCaja + CapacidadAcoplado) * IndiceSeguridad).
+
 
 
 % PUNTO 2
@@ -97,10 +98,10 @@ banda(losTirris, 50, 19).
 % D) Consulta: asola(losTirris, barcelona, BotinTotal):-
 
 
-% PUNTO 5
-% Para este punto me gusta analizar un predicado que sea parcialmente inversible para analizarlo en un mismo predicado
-% por eso aludo a fuerza() que es un predicado parcialmente inversible. Lo es para un argumento pero no lo es para otro
-% El predicado fuerza() es inversible para el segundo argumento porque Banda unifica con el predicado 
+% PUNTO 5 
+% Para este punto me gusta analizar un predicado que sea parcialmente inversible para analizar en un mismo predicado
+% Si un argumento es inversible pero no lo es para el otro. Un caso de esto es el predicado fuerza() que es
+% inversible para el segundo argumento porque Banda unifica con el predicado 
 % banda() y como el is es inversible para el elemento de la izquierda se puede obtener la Fuerza que 
 % valide la consulta.
 % Pero no es inversible para el primer argumento porque aunque banda() sí sea inversible y 
