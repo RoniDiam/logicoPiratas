@@ -1,12 +1,18 @@
 % ciudad(nombre).
-% viaje(ciudadOrigen, ciudadDestino, valor, camion).
+% viaje(ciudadOrigen, ciudadDestino, valor, NombreCamion).
 % banda(nombre, cantIntegrantes, cantArmas).
 % camion(NombreCamion, TipoCamion).
 
+banda(laBandaDeCABA, 10, 2).
+viaje(ciudadOrigen, ciudadDestino, valor, NombreCamion).
+
+indiceSeguridad(seguritas, 5).
+camion(elRapido, acoplado(2,3, seguritas).
+
 % PUNTO 1
-asaltaExitosamente(Banda, Camion):-
-        viaje(_,_,_,Camion), % El camion esta haciendo un viaje 
-        dificultad(Camion, DificultadCamion),
+asaltaExitosamente(Banda, NombreCamion):-
+        viaje(_,_,Botin,NombreCamion), % El camion esta haciendo un viaje 
+        dificultad(NombreCamion, DificultadCamion),
         fuerza(Banda, Fuerza),
         Fuerza > Dificultad.
 
@@ -14,32 +20,53 @@ fuerza(Banda, Fuerza):-
     banda(Banda, CantIntegrantes, CantArmas),
     Fuerza is (CantIntegrantes + 2 * CantArmas).
 
-dificultad(Camion, DificultadCamion):-
-    camion(Camion, comun(CantCarga)),
+dificultad(NombreCamion, DificultadCamion):-
+    camion(NombreCamion, comun(CantCarga)),
     DificultadCamion is CantCarga / 10.
 
-dificultad(Camion, DificultadCamion):-
-    camion(Camion, semiremolque(LargoRemolque, CantChoferes)),
+dificultad(NombreCamion, DificultadCamion):-
+    camion(NombreCamion, semiremolque(LargoRemolque, CantChoferes)),
     DificultadCamion is LargoRemolque * CantChoferes.
 
-dificultad(Camion, DificultadCamion):-
-    camion(Camion, acoplado(CapacidadCaja, CapacidadAcoplado, _(Indice))),
+dificultad(NombreCamion, DificultadCamion):-
+    camion(NombreCamion, acoplado(CapacidadCaja, CapacidadAcoplado, _(Indice))),
+    indiceSeguridad(NombreEmpresa, IndiceSeguridad),
     DificultadCamion is ((CapacidadCaja + CapacidadAcoplado) * Indice).
 
-% PUNTO 2
-obtenerBotin(Banda, Ciudad):-
-    findall(CamionesAsaltados, asaltaExitosamente(Banda, CamionesAsaltados), Lista),
-    viaje(_, _, valor, Lista).
 
+% PUNTO 2
+asola(Banda, Ciudad, BotinTotal):-
+    banda(Banda, _, _),
+    ciudad(Ciudad),
+    findall(Botin, (camionPasaPorCiudad(Camion, Ciudad), asaltaExitosamente(Banda, Camion, Botin)), Botines),
+    sumlist(Botines, BotinTotal).
+   
+   camionPasaPorCiudad(Camion, Ciudad):- viaje(Ciudad, _, _, Camion).
+   camionPasaPorCiudad(Camion, Ciudad):- viaje(_, Ciudad, _, Camion).
 
 
 % PUNTO 3
-caracterizar(Banda, decadente):-
+caracterizar(Banda, Ciudad, decadente):-
     banda(_, CantIntegrantes, _),
-    forall(tipo(Camion, _), not(asaltaExitosamente(Banda, Camion))),
+    forall(tipo(NombreCamion, _), not(asaltaExitosamente(Banda, NombreCamion))),
     CantIntegrantes < 10.
 
-caracterizar(Banda, terrorDeLaCiudad):-
-    banda(_, CantIntegrantes, _),
-    forall(tipo(Camion, _), not(asaltaExitosamente(Banda, Camion))),
-    CantIntegrantes < 10.
+caracterizar(Banda1, Ciudad, terrorDeLaCiudad):-
+    forall(viaje(_, _, _, NombreCamion), asaltaExitosamente(Banda1, NombreCamion)),
+    not(forall(viaje(_, _, _, NombreCamion), asaltaExitosamente(Banda2, NombreCamion))),
+    Banda1 \= Banda2.
+
+
+caracterizar(Banda, Ciudad, exentrica):-
+    banda(Banda, _, _),
+    not(asola(Banda, _, _)).
+
+% PUNTO 4
+
+
+
+
+
+% PUNTO 6
+% Se puede ver claramente el polimorfismo en camion(NombreCamion, TipoCamion). 
+% ya que TipoCamion eso lo entienden los distintos tipos de camion(comun, semiremolque, acoplado).
