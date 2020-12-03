@@ -6,6 +6,7 @@
 
 indiceSeguridad(seguritas, 5).
 camion(elRapido, acoplado(2,3, seguritas).
+camion(tata, comun(1).
 
 % PUNTO 1
 asaltaExitosamente(Banda, NombreCamion):-
@@ -71,16 +72,28 @@ banda(laBandaDeCABA, 10, 2).
 viaje(buenosAires, salta, 2434, elRapido).
 viaje(jujuy, buenosAires, 2444534, elRapido).
 
+% y cuando consultas:
+% > asaltaExitosamente(laBandaDeCABA, elRapido). => true.
+% > caracterizar(laBandaDeCABA, buenosAires, terrorDeLaCiudad). => true.
+
+
 ciudad(sanLuis).
-banda(barraBrava, 5, 12).
-caracterizar(barraBrava, sanLuis, exentrica).
+banda(barraBrava, 5000, 1234344).
+viaje(sanLuis, salta, 2, tata).
+
+
 
 
 
 % PUNTO 5
-% El predicado caracterizar es inversible ya que me traigo de los predicados banda o de ciudad por ejemplo para 
-% luego usarlos en el forall o en el not.
-%
+% Para este punto me gusta analizar un predicado que sea parcialmente inversible para analizarlo en un mismo predicado
+% por eso aludo a fuerza() que es un predicado parcialmente inversible. Lo es para un argumento pero no lo es para otro
+% El predicado fuerza() es inversible para el segundo argumento porque Banda unifica con el predicado 
+% banda() y como el is es inversible para el elemento de la izquierda se puede obtener la Fuerza que 
+% valide la consulta.
+% Pero no es inversible para el primer argumento porque aunque banda() sí sea inversible y 
+% pueda hallarse la Banda que se encuentre en la base de conocimiento, el is no es inversible para 
+% el elemento de la derecha, por lo que no se pueden hallar la CantIntegrantes y CantArmas que unifiquen.
 
 % PUNTO 6
-% Se puede ver claramente el polimorfismo en caracterizar ya que caracterizar lo entienden 
+% Caracterizar pudiese haber sido polimorfico pero para eso habia que hacerlo con functores
