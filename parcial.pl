@@ -48,7 +48,7 @@ asola(Banda, Ciudad, BotinTotal):-
 % PUNTO 3
 caracterizar(Banda, Ciudad, decadente):-
     banda(Banda, CantIntegrantes, _),
-    forall(tipo(NombreCamion, _), not(asaltaExitosamente(Banda, NombreCamion, _))),
+    forall(camion(NombreCamion, _), not(asaltaExitosamente(Banda, NombreCamion, _))),
     CantIntegrantes < 10.
 
 caracterizar(Banda, Ciudad, terrorDeLaCiudad):-
@@ -56,10 +56,9 @@ caracterizar(Banda, Ciudad, terrorDeLaCiudad):-
     ciudad(Ciudad),
     forall(camionPasaPorCiudad(Camion, Ciudad), unicoAsaltante(Banda, Camion)).
    
-   unicoAsaltante(Banda, Camion):-
+unicoAsaltante(Banda, Camion):-
     asaltaExitosamente(Banda, Camion, _),
-    not(asaltaExitosamente(OtraBanda, Camion, _), Banda \= OtraBanda).
-
+    not((asaltaExitosamente(OtraBanda, Camion, _), Banda \= OtraBanda)).
 
 caracterizar(Banda, Ciudad, exentrica):-
     banda(Banda, _, CantArmas),
