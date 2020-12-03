@@ -49,21 +49,25 @@ caracterizar(Banda, Ciudad, decadente):-
     forall(tipo(NombreCamion, _), not(asaltaExitosamente(Banda, NombreCamion))),
     CantIntegrantes < 10.
 
-caracterizar(Banda1, Ciudad, terrorDeLaCiudad):-
-    forall(camionPasaPorCiudad(Camion, Ciudad),
-   (asaltaExitosamente(Banda1, Camion, _), not(asaltaExitosamente(Banda2, Camion, _), Banda1 \= Banda2))).
+caracterizar(Banda, Ciudad, terrorDeLaCiudad):-
+    banda(Banda, _, _),
+    ciudad(Ciudad),
+    forall(camionPasaPorCiudad(Camion, Ciudad), unicoAsaltante(Banda, Camion)).
+   
+   unicoAsaltante(Banda, Camion):-
+    asaltaExitosamente(Banda, Camion, _),
+    not(asaltaExitosamente(OtraBanda, Camion, _), Banda \= OtraBanda).
 
 
 caracterizar(Banda, Ciudad, exentrica):-
-    banda(Banda, _, _),
-    not(asola(Banda, _, _)).
+    banda(Banda, _, CantArmas),
+    not(asola(Banda, _, _)),
+    CantArmas > 7.
 
 % PUNTO 4
 
 ciudad(buenosAires).
 banda(laBandaDeCABA, 10, 2).
-caracterizar(laBandaDeCABA, buenosAires, terrorDeLaCiudad).
-asaltaExitosamente(laBandaDeCABA, elRapido).
 viaje(buenosAires, salta, 2434, elRapido).
 viaje(jujuy, buenosAires, 2444534, elRapido).
 
@@ -72,6 +76,11 @@ banda(barraBrava, 5, 12).
 caracterizar(barraBrava, sanLuis, exentrica).
 
 
+
+% PUNTO 5
+% El predicado caracterizar es inversible ya que me traigo de los predicados banda o de ciudad por ejemplo para 
+% luego usarlos en el forall o en el not.
+%
+
 % PUNTO 6
-% Se puede ver claramente el polimorfismo en camion(NombreCamion, TipoCamion). 
-% ya que TipoCamion eso lo entienden los distintos tipos de camion(comun, semiremolque, acoplado).
+% Se puede ver claramente el polimorfismo en caracterizar ya que caracterizar lo entienden 
