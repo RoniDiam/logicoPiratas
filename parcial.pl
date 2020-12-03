@@ -3,8 +3,6 @@
 % banda(nombre, cantIntegrantes, cantArmas).
 % camion(NombreCamion, TipoCamion).
 
-banda(laBandaDeCABA, 10, 2).
-viaje(ciudadOrigen, ciudadDestino, valor, NombreCamion).
 
 indiceSeguridad(seguritas, 5).
 camion(elRapido, acoplado(2,3, seguritas).
@@ -47,7 +45,7 @@ asola(Banda, Ciudad, BotinTotal):-
 
 % PUNTO 3
 caracterizar(Banda, Ciudad, decadente):-
-    banda(_, CantIntegrantes, _),
+    banda(Banda, CantIntegrantes, _),
     forall(tipo(NombreCamion, _), not(asaltaExitosamente(Banda, NombreCamion))),
     CantIntegrantes < 10.
 
@@ -63,8 +61,15 @@ caracterizar(Banda, Ciudad, exentrica):-
 
 % PUNTO 4
 
+ciudad(buenosAires).
+banda(laBandaDeCABA, 10, 2).
+caracterizar(laBandaDeCABA, buenosAires, terrorDeLaCiudad).
+asaltaExitosamente(laBandaDeCABA, elRapido).
+viaje(buenosAires, salta, 2434, elRapido).
+viaje(jujuy, buenosAires, 2444534, elRapido).
 
 
+caracterizar(Banda, Ciudad, exentrica)
 
 
 % PUNTO 6
